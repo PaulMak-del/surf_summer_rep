@@ -23,6 +23,7 @@ private const val SPAN_COUNT = 2
 class CocktailsListFragment : Fragment() {
 
     private val cocktailsListViewModel : CocktailsListViewModel by viewModels()
+    private val clickListener: ClickListener = ClickListener()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,11 +37,7 @@ class CocktailsListFragment : Fragment() {
         val recyclerView : RecyclerView = view.findViewById(R.id.cocktails_recycler_view)
         val adapter = CocktailsListAdapter(
             cocktailsListViewModel.cocktailsList.value ?: emptyList(),
-            object : CocktailsListAdapter.OnClickListener {
-                override fun onViewClick(id: Long) {
-                    Log.d("ddd", "smt: $id")
-                }
-            }
+            clickListener
         )
         recyclerView.layoutManager = GridLayoutManager(view.context, SPAN_COUNT)
         recyclerView.adapter = adapter
@@ -78,4 +75,9 @@ class CocktailsListFragment : Fragment() {
         }
     }
 
+    class ClickListener : CocktailsListAdapter.OnClickListener {
+        override fun onViewClick(id: Long) {
+            Log.d("ddd", "smt: $id")
+        }
+    }
 }
