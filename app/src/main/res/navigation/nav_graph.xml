@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/cocktailsListFragment">
+
+    <fragment
+        android:id="@+id/cocktailDetailFragment"
+        android:name="com.example.myapplication.presentation.fragments.CocktailDetailFragment"
+        android:label="fragment_cocktail_delail"
+        tools:layout="@layout/fragment_cocktail_delail" />
+    <fragment
+        android:id="@+id/cocktailsListFragment"
+        android:name="com.example.myapplication.presentation.fragments.CocktailsListFragment"
+        android:label="fragment_cocktails_list"
+        tools:layout="@layout/fragment_cocktails_list" >
+        <action
+            android:id="@+id/action_cocktailsListFragment_to_createCocktailFragment"
+            app:destination="@id/createCocktailFragment" />
+        <action
+            android:id="@+id/action_cocktailsListFragment_to_cocktailDetailFragment"
+            app:destination="@id/cocktailDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCocktailFragment"
+        android:name="com.example.myapplication.presentation.fragments.CreateCocktailFragment"
+        android:label="fragment_create_cocktail"
+        tools:layout="@layout/fragment_create_cocktail" />
+</navigation>
