@@ -23,4 +23,7 @@ class PersistenceModule {
 
     @Provides
     fun providesCocktailDao(db: AppDatabase) = db.cocktailDao()
+
+    @Provides
+    fun providesIngredientDao(db: AppDatabase) = db.ingredientDao()
 }

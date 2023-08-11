@@ -8,8 +8,3 @@ data class CocktailModel(
     val image: Int,
 )
 
-data class IngredientModel(
-    val id: Long,
-    val cocktailId: Long,
-    val name: String
-)

@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
+import com.example.myapplication.domain.models.IngredientModel
 
 class CocktailsIngredientsAdapter(
-    private val ingredients: List<String>
+    private val ingredients: List<IngredientModel>
 ) : RecyclerView.Adapter<CocktailsIngredientsAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -28,7 +29,7 @@ class CocktailsIngredientsAdapter(
     override fun getItemCount(): Int = ingredients.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.ingredient.text = ingredients[position]
+        holder.ingredient.text = ingredients[position].name
     }
 
 }

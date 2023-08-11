@@ -12,9 +12,3 @@ data class CocktailEntity(
     val image: Int
 )
 
-@Entity(tableName = "ingredient")
-data class IngredientEntity(
-    @PrimaryKey val id: Long,
-    val cocktailId: Long,
-    val name: String
-)

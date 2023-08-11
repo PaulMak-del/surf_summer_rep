@@ -1,14 +1,14 @@
 package com.example.myapplication.presentation.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.domain.models.CocktailModel
-import com.example.myapplication.domain.usecases.GetCocktailUseCase
+import com.example.myapplication.domain.models.IngredientModel
 import com.example.myapplication.domain.usecases.GetCocktailsListUseCase
 import com.example.myapplication.domain.usecases.InsertCocktailUserCase
+import com.example.myapplication.domain.usecases.InsertIngredientsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,6 +18,7 @@ import javax.inject.Inject
 class CocktailsListViewModel @Inject constructor(
     private val getCocktailsListUseCase: GetCocktailsListUseCase,
     private val insertCocktailUserCase: InsertCocktailUserCase,
+    private val insertIngredientUseCase: InsertIngredientsUseCase,
 ) : ViewModel() {
 
     private val _cocktailsList = MutableLiveData<List<CocktailModel>>()
@@ -35,6 +36,13 @@ class CocktailsListViewModel @Inject constructor(
         val c1 = CocktailModel(1, "name1", "desc", "rec", 11)
         val c2 = CocktailModel(2, "name2", "desc", "rec", 12)
         val c3 = CocktailModel(3, "name3", "desc", "rec", 13)
+        val ing1 = IngredientModel(1, 1, "ing1_")
+        val ing2 = IngredientModel(2, 1, "ing2_")
+        val ing3 = IngredientModel(3, 2, "ing1__")
+        val ing4 = IngredientModel(4, 2, "ing2__")
+        val ing5 = IngredientModel(5, 2, "ing3__")
+        val ing6 = IngredientModel(6, 3, "ing1___")
+        val ing7 = IngredientModel(7, 3, "ing2___")
 
         viewModelScope.launch(Dispatchers.IO) {
             insertCocktailUserCase.process(c1)
@@ -44,6 +52,15 @@ class CocktailsListViewModel @Inject constructor(
         }
         viewModelScope.launch(Dispatchers.IO) {
             insertCocktailUserCase.process(c3)
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            insertIngredientUseCase.execute(listOf(ing1, ing2))
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            insertIngredientUseCase.execute(listOf(ing3, ing4, ing5))
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            insertIngredientUseCase.execute(listOf(ing6, ing7))
         }
     }
 }

@@ -9,7 +9,11 @@
         android:id="@+id/cocktailDetailFragment"
         android:name="com.example.myapplication.presentation.fragments.CocktailDetailFragment"
         android:label="fragment_cocktail_delail"
-        tools:layout="@layout/fragment_cocktail_delail" />
+        tools:layout="@layout/fragment_cocktail_delail" >
+        <argument
+            android:name="cocktail_id"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/cocktailsListFragment"
         android:name="com.example.myapplication.presentation.fragments.CocktailsListFragment"
