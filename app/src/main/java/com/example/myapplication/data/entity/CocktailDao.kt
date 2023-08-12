@@ -15,5 +15,5 @@ abstract class CocktailDao {
     abstract fun getCocktailsList() : Flow<List<CocktailEntity>>
 
     @Insert
-    abstract fun insertCocktail(cocktail: CocktailEntity)
+    abstract fun insertCocktail(cocktail: CocktailEntity) : Long
 }

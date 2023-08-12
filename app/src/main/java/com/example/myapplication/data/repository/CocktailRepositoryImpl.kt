@@ -39,21 +39,22 @@ class CocktailRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun insertCocktail(cocktail: CocktailModel) {
-        cocktailDao.insertCocktail(CocktailEntity(
-            cocktail.id,
-            cocktail.name,
-            cocktail.description,
-            cocktail.recipe,
-            cocktail.image))
+    override suspend fun insertCocktail(cocktail: CocktailModel) : Long {
+        return cocktailDao.insertCocktail(CocktailEntity(
+            name = cocktail.name,
+            description = cocktail.description,
+            recipe = cocktail.recipe,
+            image = cocktail.image
+        ))
     }
 
     private fun convert(cocktailEntity: CocktailEntity) : CocktailModel {
         return CocktailModel(
-            cocktailEntity.id,
-            cocktailEntity.name,
-            cocktailEntity.description,
-            cocktailEntity.recipe,
-            cocktailEntity.image)
+            id = cocktailEntity.id,
+            name = cocktailEntity.name,
+            description = cocktailEntity.description,
+            recipe = cocktailEntity.recipe,
+            image = cocktailEntity.image
+        )
     }
 }

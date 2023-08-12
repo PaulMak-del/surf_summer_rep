@@ -19,4 +19,8 @@
     <string name="supporting_">Optional field</string>
     <string name="cocktail_description">Description</string>
     <string name="cocktail_recipe">Recipe</string>
+    <string name="add_ingredient_title">Add ingredient</string>
+    <string name="ingredient_hint">Ingredient</string>
+    <string name="add_ingredient">Add ingredient</string>
+    <string name="add_button">Add</string>
 </resources>

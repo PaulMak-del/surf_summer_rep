@@ -26,7 +26,6 @@ private const val SPAN_COUNT = 2
 class CocktailsListFragment : Fragment() {
 
     private val cocktailsListViewModel : CocktailsListViewModel by viewModels()
-    //private val clickListener: ClickListener by lazy { ClickListener(fragmentView) }
 
     private lateinit var fragmentView: View
     private lateinit var clickListener: ClickListener
@@ -40,8 +39,6 @@ class CocktailsListFragment : Fragment() {
         clickListener = ClickListener(fragmentView)
 
         //cocktailsListViewModel.test()
-
-        Log.d("ddd", "OnCreateView\nview: {$fragmentView}")
 
         val recyclerView : RecyclerView = fragmentView.findViewById(R.id.cocktails_recycler_view)
         val adapter = CocktailsListAdapter(

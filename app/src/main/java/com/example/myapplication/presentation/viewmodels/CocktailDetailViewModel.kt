@@ -10,6 +10,7 @@ import com.example.myapplication.domain.usecases.GetCocktailUseCase
 import com.example.myapplication.domain.usecases.GetIngredientsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,6 +25,8 @@ class CocktailDetailViewModel @Inject constructor(
 
     private val _ingredients = MutableLiveData<List<IngredientModel>>()
     val ingredients : LiveData<List<IngredientModel>> = _ingredients
+
+
 
     fun loadCocktailWithIngredients(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {

@@ -8,7 +8,7 @@ class InsertCocktailUserCase @Inject constructor(
     private val cocktailRep: CocktailRepository
 ) {
 
-    suspend fun execute(cocktail: CocktailModel) {
-        cocktailRep.insertCocktail(cocktail)
+    suspend fun execute(cocktail: CocktailModel) : Long {
+        return cocktailRep.insertCocktail(cocktail)
     }
 }

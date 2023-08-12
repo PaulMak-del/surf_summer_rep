@@ -1,51 +1,50 @@
 package com.example.myapplication.presentation.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.domain.models.CocktailModel
 import com.example.myapplication.domain.models.IngredientModel
 import com.example.myapplication.domain.usecases.GetIngredientsUseCase
 import com.example.myapplication.domain.usecases.InsertCocktailUserCase
 import com.example.myapplication.domain.usecases.InsertIngredientsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class CreateCocktailViewModel @Inject constructor(
     private val insertCocktailUserCase: InsertCocktailUserCase,
     private val insertIngredientsUseCase: InsertIngredientsUseCase,
     private val getIngredientsUseCase: GetIngredientsUseCase,
 ) : ViewModel() {
 
-    private val _ingredients = MutableLiveData<List<IngredientModel>>()
-    val ingredients : LiveData<List<IngredientModel>> = _ingredients
+    private val mutIngredientsList : MutableList<String> = mutableListOf()
+    private val _ingredients = MutableLiveData<List<String>>(mutIngredientsList)
+    val ingredients : LiveData<List<String>> = _ingredients
 
-    fun loadIngredients(id: Long) {
+    fun insertCocktailWithIngredients(cocktail: CocktailModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            getIngredientsUseCase.execute(id).collect {
-                _ingredients.postValue(it)
-            }
+            val cocktailId = insertCocktailUserCase.execute(cocktail)
+            insertIngredientsUseCase.execute(
+                _ingredients.value?.map {
+                    IngredientModel(
+                        id = 0,
+                        cocktailId = cocktailId,
+                        name = it
+                    )
+                } ?: emptyList()
+            )
         }
     }
 
-    fun insertIngredient(ings: List<IngredientModel>) {
-        viewModelScope.launch(Dispatchers.IO){
-            insertIngredientsUseCase.execute(ings)
-        }
-    }
-
-    fun insertCocktail(cocktail: CocktailModel) {
-        viewModelScope.launch(Dispatchers.IO){
-            insertCocktailUserCase.execute(cocktail)
-        }
-    }
-
-    fun insertCocktailWithIngredients(cocktail: CocktailModel, ings: List<IngredientModel>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            insertCocktailUserCase.execute(cocktail)
-            insertIngredientsUseCase.execute(ings)
-        }
+    fun addIngredient(name: String) {
+        Log.d("ddd", "add ing: {$name}")
+        mutIngredientsList.add(name)
+        _ingredients.value = mutIngredientsList
     }
 }

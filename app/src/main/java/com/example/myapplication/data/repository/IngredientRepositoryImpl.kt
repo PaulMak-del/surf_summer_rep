@@ -15,7 +15,6 @@ class IngredientRepositoryImpl @Inject constructor(
     override fun insertIngredients(ingredients: List<IngredientModel>) = ingredientDao.insertIngredients(
         ingredients.map { ingredient ->
             IngredientEntity(
-                id = ingredient.id,
                 cocktailId = ingredient.cocktailId,
                 name = ingredient.name
             )

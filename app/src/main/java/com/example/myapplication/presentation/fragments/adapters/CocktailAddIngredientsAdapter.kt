@@ -8,7 +8,7 @@ import com.example.myapplication.databinding.IngredientsAddListItemBinding
 import com.example.myapplication.domain.models.IngredientModel
 
 class CocktailAddIngredientsAdapter(
-    val ingredients: List<IngredientModel>
+    val ingredients: List<String>
 ) : RecyclerView.Adapter<CocktailAddIngredientsAdapter.ViewHolder>() {
 
 
@@ -23,6 +23,6 @@ class CocktailAddIngredientsAdapter(
     override fun getItemCount(): Int = ingredients.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.ingredientName.text = ingredients[position].name
+        holder.binding.ingredientName.text = ingredients[position]
     }
 }

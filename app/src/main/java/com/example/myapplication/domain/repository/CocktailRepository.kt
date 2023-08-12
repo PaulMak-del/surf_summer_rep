@@ -12,5 +12,5 @@ interface CocktailRepository {
 
     fun getIngredients(id: Long) : Flow<List<IngredientModel>>
 
-    suspend fun insertCocktail(cocktail: CocktailModel)
+    suspend fun insertCocktail(cocktail: CocktailModel) : Long
 }

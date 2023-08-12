@@ -33,16 +33,16 @@ class CocktailsListViewModel @Inject constructor(
     }
 
     fun test() {
-        val c1 = CocktailModel(1, "name1", "desc", "rec", 11)
-        val c2 = CocktailModel(2, "name2", "desc", "rec", 12)
-        val c3 = CocktailModel(3, "name3", "desc", "rec", 13)
-        val ing1 = IngredientModel(1, 1, "ing1_")
-        val ing2 = IngredientModel(2, 1, "ing2_")
-        val ing3 = IngredientModel(3, 2, "ing1__")
-        val ing4 = IngredientModel(4, 2, "ing2__")
-        val ing5 = IngredientModel(5, 2, "ing3__")
-        val ing6 = IngredientModel(6, 3, "ing1___")
-        val ing7 = IngredientModel(7, 3, "ing2___")
+        val c1 = CocktailModel(0, "name1", "desc", "rec", 11)
+        val c2 = CocktailModel(0, "name2", "desc", "rec", 12)
+        val c3 = CocktailModel(0, "name3", "desc", "rec", 13)
+        val ing1 = IngredientModel(0, 1, "ing1_")
+        val ing2 = IngredientModel(0, 1, "ing2_")
+        val ing3 = IngredientModel(0, 2, "ing1__")
+        val ing4 = IngredientModel(0, 2, "ing2__")
+        val ing5 = IngredientModel(0, 2, "ing3__")
+        val ing6 = IngredientModel(0, 3, "ing1___")
+        val ing7 = IngredientModel(0, 3, "ing2___")
 
         viewModelScope.launch(Dispatchers.IO) {
             insertCocktailUserCase.execute(c1)
