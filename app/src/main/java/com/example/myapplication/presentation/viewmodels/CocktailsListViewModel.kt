@@ -45,13 +45,13 @@ class CocktailsListViewModel @Inject constructor(
         val ing7 = IngredientModel(7, 3, "ing2___")
 
         viewModelScope.launch(Dispatchers.IO) {
-            insertCocktailUserCase.process(c1)
+            insertCocktailUserCase.execute(c1)
         }
         viewModelScope.launch(Dispatchers.IO) {
-            insertCocktailUserCase.process(c2)
+            insertCocktailUserCase.execute(c2)
         }
         viewModelScope.launch(Dispatchers.IO) {
-            insertCocktailUserCase.process(c3)
+            insertCocktailUserCase.execute(c3)
         }
         viewModelScope.launch(Dispatchers.IO) {
             insertIngredientUseCase.execute(listOf(ing1, ing2))

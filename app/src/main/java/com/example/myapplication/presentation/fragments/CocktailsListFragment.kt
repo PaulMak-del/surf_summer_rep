@@ -11,11 +11,13 @@ import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.presentation.fragments.adapters.CocktailsListAdapter
 import com.example.myapplication.presentation.viewmodels.CocktailsListViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val SPAN_COUNT = 2
@@ -57,6 +59,10 @@ class CocktailsListFragment : Fragment() {
             adapter.notifyDataSetChanged()
 
             manageLayoutVisibility(fragmentView, cocktailsListViewModel.cocktailsList.value?.isEmpty() ?: true)
+        }
+
+        fragmentView.findViewById<FloatingActionButton>(R.id.floating_action_button).setOnClickListener {
+            fragmentView.findNavController().navigate(R.id.action_cocktailsListFragment_to_createCocktailFragment)
         }
 
         return fragmentView
