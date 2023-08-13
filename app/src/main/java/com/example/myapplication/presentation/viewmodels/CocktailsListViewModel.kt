@@ -6,13 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.domain.models.CocktailModel
-import com.example.myapplication.domain.models.IngredientModel
 import com.example.myapplication.domain.usecases.GetCocktailsListUseCase
-import com.example.myapplication.domain.usecases.InsertCocktailUserCase
-import com.example.myapplication.domain.usecases.InsertIngredientsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

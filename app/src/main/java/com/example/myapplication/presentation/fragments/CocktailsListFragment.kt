@@ -6,18 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentCocktailsListBinding
 import com.example.myapplication.presentation.adapters.CocktailsListAdapter
 import com.example.myapplication.presentation.viewmodels.CocktailsListViewModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val SPAN_COUNT = 2
@@ -37,31 +33,18 @@ class CocktailsListFragment : Fragment() {
         binding = FragmentCocktailsListBinding.inflate(inflater)
         val view = binding.root
 
-        var adapter = CocktailsListAdapter(
+        binding.cocktailsRecyclerView.layoutManager = GridLayoutManager(view.context, SPAN_COUNT)
+        binding.cocktailsRecyclerView.adapter = CocktailsListAdapter(
             cocktailsListViewModel.cocktailsList.value ?: emptyList(),
             ClickListener(view)
         )
-        binding.cocktailsRecyclerView.layoutManager = GridLayoutManager(view.context, SPAN_COUNT)
-        binding.cocktailsRecyclerView.adapter = adapter
-
-        // TEST
-        binding.myCocktails.setOnClickListener {
-            Log.d("ddd", "${adapter.cocktailsList.map{it.id}}")
-            Log.d("ddd", "title||adapter:     $adapter")
-            Log.d("ddd", "title||rec adapter: ${binding.cocktailsRecyclerView.adapter}")
-            (binding.cocktailsRecyclerView.adapter)?.notifyDataSetChanged()
-        }
 
         cocktailsListViewModel.loadCocktailsList()
-
         cocktailsListViewModel.cocktailsList.observe(viewLifecycleOwner) {
-            //Log.d("ddd", "Cocktail List Changed")
-            Log.d("ddd", "observer||adapter:     $adapter")
-            Log.d("ddd", "observer||rec adapter: ${binding.cocktailsRecyclerView.adapter}")
-            adapter = CocktailsListAdapter(it ?: emptyList(), ClickListener(view))
+            binding.cocktailsRecyclerView.adapter = CocktailsListAdapter(it ?: emptyList(), ClickListener(view))
             (binding.cocktailsRecyclerView.adapter)?.notifyDataSetChanged()
 
-            updateUI(view, cocktailsListViewModel.cocktailsList.value?.isEmpty() ?: true)
+            updateUI(cocktailsListViewModel.cocktailsList.value?.isEmpty() ?: true)
         }
 
         binding.floatingActionButton.setOnClickListener {
@@ -71,7 +54,7 @@ class CocktailsListFragment : Fragment() {
         return view
     }
 
-    private fun updateUI(view: View, cocktailsListIsEmpty: Boolean) {
+    private fun updateUI(cocktailsListIsEmpty: Boolean) {
         binding.apply {
             if (cocktailsListIsEmpty) {
                 summerHolidays.visibility = View.VISIBLE

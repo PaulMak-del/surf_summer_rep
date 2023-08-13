@@ -10,7 +10,6 @@ import com.example.myapplication.domain.usecases.GetCocktailUseCase
 import com.example.myapplication.domain.usecases.GetIngredientsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
