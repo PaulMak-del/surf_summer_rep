@@ -12,17 +12,18 @@ import com.example.myapplication.domain.usecases.InsertCocktailUserCase
 import com.example.myapplication.domain.usecases.InsertIngredientsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CocktailsListViewModel @Inject constructor(
     private val getCocktailsListUseCase: GetCocktailsListUseCase,
-    private val insertCocktailUserCase: InsertCocktailUserCase,
-    private val insertIngredientUseCase: InsertIngredientsUseCase,
 ) : ViewModel() {
 
-    private val _cocktailsList = MutableLiveData<List<CocktailModel>>()
+    private val _cocktailsList : MutableLiveData<List<CocktailModel>> by lazy {
+        MutableLiveData<List<CocktailModel>>()
+    }
     val cocktailsList : LiveData<List<CocktailModel>> = _cocktailsList
 
     fun loadCocktailsList() {

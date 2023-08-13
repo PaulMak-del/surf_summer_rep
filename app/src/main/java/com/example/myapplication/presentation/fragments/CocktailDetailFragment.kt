@@ -42,14 +42,14 @@ class CocktailDetailFragment : Fragment() {
         binding.editButton.setOnClickListener {  }
         binding.deleteButton.setOnClickListener {  }
 
-        // Inflate the layout for this fragment
         return view
     }
 
     private fun setViewParameters(view: View) {
+
         val cocktail = cocktailDetailViewModel.cocktail.value ?: CocktailModel(0, "", "", "", byteArrayOf())
 
-        if (!cocktail.image.contentEquals(byteArrayOf())){
+        if (!cocktail.image.contentEquals(byteArrayOf())) {
             val stream = ByteArrayInputStream(cocktail.image)
             val image = BitmapFactory.decodeStream(stream)
             binding.cocktailImage.setImageBitmap(image)
@@ -73,5 +73,8 @@ class CocktailDetailFragment : Fragment() {
             binding.recipe.visibility = View.VISIBLE
             binding.recipe.text = cocktail.recipe
         }
+
+        binding.cocktailImage.visibility = View.VISIBLE
+        binding.layoutDetail.visibility = View.VISIBLE
     }
 }

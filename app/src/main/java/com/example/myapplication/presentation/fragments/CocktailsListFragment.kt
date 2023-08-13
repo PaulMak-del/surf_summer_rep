@@ -14,6 +14,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
+import com.example.myapplication.databinding.FragmentCocktailsListBinding
 import com.example.myapplication.presentation.adapters.CocktailsListAdapter
 import com.example.myapplication.presentation.viewmodels.CocktailsListViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -25,8 +26,7 @@ private const val SPAN_COUNT = 2
 class CocktailsListFragment : Fragment() {
 
     private val cocktailsListViewModel : CocktailsListViewModel by viewModels()
-
-    private lateinit var fragmentView: View
+    private lateinit var binding: FragmentCocktailsListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,21 +34,22 @@ class CocktailsListFragment : Fragment() {
     ): View {
 
         Log.d("ddd", "onCreateView: list")
-        fragmentView = inflater.inflate(R.layout.fragment_cocktails_list, container, false)
+        binding = FragmentCocktailsListBinding.inflate(inflater)
+        val view = binding.root
 
-        val recyclerView : RecyclerView = fragmentView.findViewById(R.id.cocktails_recycler_view)
         var adapter = CocktailsListAdapter(
             cocktailsListViewModel.cocktailsList.value ?: emptyList(),
-            ClickListener(fragmentView)
+            ClickListener(view)
         )
-        recyclerView.layoutManager = GridLayoutManager(fragmentView.context, SPAN_COUNT)
-        recyclerView.adapter = adapter
+        binding.cocktailsRecyclerView.layoutManager = GridLayoutManager(view.context, SPAN_COUNT)
+        binding.cocktailsRecyclerView.adapter = adapter
 
-        fragmentView.findViewById<TextView>(R.id.my_cocktails).setOnClickListener {
+        // TEST
+        binding.myCocktails.setOnClickListener {
             Log.d("ddd", "${adapter.cocktailsList.map{it.id}}")
             Log.d("ddd", "title||adapter:     $adapter")
-            Log.d("ddd", "title||rec adapter: ${recyclerView.adapter}")
-            (recyclerView.adapter)?.notifyDataSetChanged()
+            Log.d("ddd", "title||rec adapter: ${binding.cocktailsRecyclerView.adapter}")
+            (binding.cocktailsRecyclerView.adapter)?.notifyDataSetChanged()
         }
 
         cocktailsListViewModel.loadCocktailsList()
@@ -56,36 +57,33 @@ class CocktailsListFragment : Fragment() {
         cocktailsListViewModel.cocktailsList.observe(viewLifecycleOwner) {
             //Log.d("ddd", "Cocktail List Changed")
             Log.d("ddd", "observer||adapter:     $adapter")
-            Log.d("ddd", "observer||rec adapter: ${recyclerView.adapter}")
-            adapter = CocktailsListAdapter(it ?: emptyList(), ClickListener(fragmentView))
-            (recyclerView.adapter)?.notifyDataSetChanged()
+            Log.d("ddd", "observer||rec adapter: ${binding.cocktailsRecyclerView.adapter}")
+            adapter = CocktailsListAdapter(it ?: emptyList(), ClickListener(view))
+            (binding.cocktailsRecyclerView.adapter)?.notifyDataSetChanged()
 
-            manageLayoutVisibility(fragmentView, cocktailsListViewModel.cocktailsList.value?.isEmpty() ?: true)
+            updateUI(view, cocktailsListViewModel.cocktailsList.value?.isEmpty() ?: true)
         }
 
-        fragmentView.findViewById<FloatingActionButton>(R.id.floating_action_button).setOnClickListener {
-            fragmentView.findNavController().navigate(R.id.action_cocktailsListFragment_to_createCocktailFragment)
+        binding.floatingActionButton.setOnClickListener {
+            view.findNavController().navigate(R.id.action_cocktailsListFragment_to_createCocktailFragment)
         }
 
-        return fragmentView
+        return view
     }
 
-    private fun manageLayoutVisibility(view: View, cocktailsListIsEmpty: Boolean) {
-        val summerHolidaysImageView : ImageView = view.findViewById(R.id.summer_holidays)
-        val createCockTextView : TextView = view.findViewById(R.id.create_cock)
-        val arrowImageView : View = view.findViewById(R.id.arrow_1)
-        val recyclerView : RecyclerView = view.findViewById(R.id.cocktails_recycler_view)
-
-        if (cocktailsListIsEmpty) {
-            summerHolidaysImageView.visibility = View.VISIBLE
-            createCockTextView.visibility = View.VISIBLE
-            arrowImageView.visibility = View.VISIBLE
-            recyclerView.visibility = View.GONE
-        } else {
-            summerHolidaysImageView.visibility = View.GONE
-            createCockTextView.visibility = View.GONE
-            arrowImageView.visibility = View.GONE
-            recyclerView.visibility = View.VISIBLE
+    private fun updateUI(view: View, cocktailsListIsEmpty: Boolean) {
+        binding.apply {
+            if (cocktailsListIsEmpty) {
+                summerHolidays.visibility = View.VISIBLE
+                createCock.visibility = View.VISIBLE
+                arrow1.visibility = View.VISIBLE
+                cocktailsRecyclerView.visibility = View.GONE
+            } else {
+                summerHolidays.visibility = View.GONE
+                createCock.visibility = View.GONE
+                arrow1.visibility = View.GONE
+                cocktailsRecyclerView.visibility = View.VISIBLE
+            }
         }
     }
 
