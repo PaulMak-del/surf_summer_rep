@@ -5,6 +5,6 @@ data class CocktailModel(
     val name: String,
     val description: String,
     val recipe: String,
-    val image: Int,
+    val image: ByteArray,
 )
 

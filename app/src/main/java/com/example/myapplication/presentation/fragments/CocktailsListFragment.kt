@@ -11,11 +11,10 @@ import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
-import com.example.myapplication.presentation.fragments.adapters.CocktailsListAdapter
+import com.example.myapplication.presentation.adapters.CocktailsListAdapter
 import com.example.myapplication.presentation.viewmodels.CocktailsListViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,32 +27,38 @@ class CocktailsListFragment : Fragment() {
     private val cocktailsListViewModel : CocktailsListViewModel by viewModels()
 
     private lateinit var fragmentView: View
-    private lateinit var clickListener: ClickListener
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
+        Log.d("ddd", "onCreateView: list")
         fragmentView = inflater.inflate(R.layout.fragment_cocktails_list, container, false)
-        clickListener = ClickListener(fragmentView)
-
-        //cocktailsListViewModel.test()
 
         val recyclerView : RecyclerView = fragmentView.findViewById(R.id.cocktails_recycler_view)
-        val adapter = CocktailsListAdapter(
+        var adapter = CocktailsListAdapter(
             cocktailsListViewModel.cocktailsList.value ?: emptyList(),
-            clickListener
+            ClickListener(fragmentView)
         )
         recyclerView.layoutManager = GridLayoutManager(fragmentView.context, SPAN_COUNT)
         recyclerView.adapter = adapter
 
+        fragmentView.findViewById<TextView>(R.id.my_cocktails).setOnClickListener {
+            Log.d("ddd", "${adapter.cocktailsList.map{it.id}}")
+            Log.d("ddd", "title||adapter:     $adapter")
+            Log.d("ddd", "title||rec adapter: ${recyclerView.adapter}")
+            (recyclerView.adapter)?.notifyDataSetChanged()
+        }
+
         cocktailsListViewModel.loadCocktailsList()
 
         cocktailsListViewModel.cocktailsList.observe(viewLifecycleOwner) {
-            Log.d("ddd", "data changed")
-            adapter.setList(cocktailsListViewModel.cocktailsList.value ?: emptyList())
-            adapter.notifyDataSetChanged()
+            //Log.d("ddd", "Cocktail List Changed")
+            Log.d("ddd", "observer||adapter:     $adapter")
+            Log.d("ddd", "observer||rec adapter: ${recyclerView.adapter}")
+            adapter = CocktailsListAdapter(it ?: emptyList(), ClickListener(fragmentView))
+            (recyclerView.adapter)?.notifyDataSetChanged()
 
             manageLayoutVisibility(fragmentView, cocktailsListViewModel.cocktailsList.value?.isEmpty() ?: true)
         }
@@ -81,7 +86,6 @@ class CocktailsListFragment : Fragment() {
             createCockTextView.visibility = View.GONE
             arrowImageView.visibility = View.GONE
             recyclerView.visibility = View.VISIBLE
-
         }
     }
 
@@ -94,5 +98,4 @@ class CocktailsListFragment : Fragment() {
             view.findNavController().navigate(R.id.action_cocktailsListFragment_to_cocktailDetailFragment, bundle)
         }
     }
-
 }

@@ -23,4 +23,5 @@
     <string name="ingredient_hint">Ingredient</string>
     <string name="add_ingredient">Add ingredient</string>
     <string name="add_button">Add</string>
+    <string name="delete_button">Delete</string>
 </resources>

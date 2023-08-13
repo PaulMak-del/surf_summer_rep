@@ -47,4 +47,10 @@ class CreateCocktailViewModel @Inject constructor(
         mutIngredientsList.add(name)
         _ingredients.value = mutIngredientsList
     }
+
+    fun removeIngredient(name: String) {
+        Log.d("ddd", "add ing: {$name}")
+        mutIngredientsList.remove(name)
+        _ingredients.value = mutIngredientsList
+    }
 }

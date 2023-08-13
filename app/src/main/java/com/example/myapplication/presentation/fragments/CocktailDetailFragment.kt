@@ -1,21 +1,19 @@
 package com.example.myapplication.presentation.fragments
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentCocktailDelailBinding
 import com.example.myapplication.domain.models.CocktailModel
-import com.example.myapplication.presentation.fragments.adapters.CocktailsIngredientsAdapter
+import com.example.myapplication.presentation.adapters.CocktailsIngredientsAdapter
 import com.example.myapplication.presentation.viewmodels.CocktailDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.ByteArrayInputStream
 
 @AndroidEntryPoint
 class CocktailDetailFragment : Fragment() {
@@ -41,12 +39,21 @@ class CocktailDetailFragment : Fragment() {
             setViewParameters(view)
         }
 
+        binding.editButton.setOnClickListener {  }
+        binding.deleteButton.setOnClickListener {  }
+
         // Inflate the layout for this fragment
         return view
     }
 
     private fun setViewParameters(view: View) {
-        val cocktail = cocktailDetailViewModel.cocktail.value ?: CocktailModel(0, "", "", "", 1)
+        val cocktail = cocktailDetailViewModel.cocktail.value ?: CocktailModel(0, "", "", "", byteArrayOf())
+
+        if (!cocktail.image.contentEquals(byteArrayOf())){
+            val stream = ByteArrayInputStream(cocktail.image)
+            val image = BitmapFactory.decodeStream(stream)
+            binding.cocktailImage.setImageBitmap(image)
+        }
 
         binding.cocktailTi.text = cocktail.name
         if (cocktail.description != "") {
